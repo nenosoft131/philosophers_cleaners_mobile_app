@@ -3,6 +3,7 @@ import '../services/api_service.dart';
 import '../models/login_request.dart';
 import 'register_screen.dart';
 import 'main_screen.dart';
+import 'admin_main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -40,14 +41,22 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text,
       );
 
-      await ApiService.login(request);
+      final loginResponse = await ApiService.login(request);
 
       if (!mounted) return;
 
-      // Navigate to main screen
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+      final role = loginResponse.userRole;
+
+      // Navigate based on role (admin vs client)
+      if (role != null && role.toLowerCase() == 'admin') {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const AdminMainScreen()),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+        );
+      }
     } catch (e) {
       if (!mounted) return;
       
@@ -78,10 +87,15 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 60),
-                Icon(
-                  Icons.cleaning_services,
-                  size: 80,
-                  color: Theme.of(context).colorScheme.primary,
+                Center(
+                  child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Image.asset(
+                      'assets/logo.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Text(
