@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
 import 'login_screen.dart';
 import 'main_screen.dart';
+import 'admin_main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,10 +27,19 @@ class _SplashScreenState extends State<SplashScreen> {
     final hasToken = await StorageService.hasToken();
     
     if (hasToken) {
-      // User is already logged in, go to main screen
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+      final role = await StorageService.getUserRole();
+      if (!mounted) return;
+
+      // Navigate based on stored role
+      if (role != null && role.toLowerCase() == 'admin') {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const AdminMainScreen()),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+        );
+      }
     } else {
       // User needs to login, go to login screen
       Navigator.of(context).pushReplacement(
@@ -42,6 +52,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -52,37 +64,47 @@ class _SplashScreenState extends State<SplashScreen> {
             ],
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.cleaning_services,
-                size: 100,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Philosophers Cleaners',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 120,
+                  width: 120,
+                  child: Image.asset(
+                    'assets/logo.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Professional Cleaning Services',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white70,
+                const SizedBox(height: 24),
+                const Text(
+                  'Philosophers Cleaners',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1.5,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 40),
-              const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ],
+                const SizedBox(height: 8),
+                const Text(
+                  'Luxury Garment Laundry & Care',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -207,7 +207,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  items: UserRole.values.map((role) {
+                  // Only allow clients to self-register; admin users are created separately.
+                  items: [UserRole.client].map((role) {
                     return DropdownMenuItem(
                       value: role,
                       child: Text(role.value.toUpperCase()),
