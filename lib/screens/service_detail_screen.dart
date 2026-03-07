@@ -53,7 +53,11 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     final multiplier = _getSizeMultiplier(_size);
     final subtotal = (_quantity * widget.service.ratePerItem * multiplier);
     final total = subtotal + _serviceCharge;
-    return {'subtotal': subtotal, 'serviceCharge': _serviceCharge, 'total': total};
+    return {
+      'subtotal': subtotal,
+      'serviceCharge': _serviceCharge,
+      'total': total
+    };
   }
 
   @override
@@ -152,6 +156,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.service.title),
+        titleTextStyle: const TextStyle(color: Colors.white),
+        backgroundColor: Colors.green,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Form(
         key: _formKey,
@@ -167,17 +174,24 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     children: [
                       CircleAvatar(
                         radius: 30,
-                        backgroundColor: widget.service.iconColor.withOpacity(0.2),
-                        child: Icon(widget.service.icon, size: 36, color: widget.service.iconColor),
+                        backgroundColor:
+                            widget.service.iconColor.withOpacity(0.2),
+                        child: Icon(widget.service.icon,
+                            size: 36, color: widget.service.iconColor),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.service.title, style: Theme.of(context).textTheme.titleLarge),
-                            Text(widget.service.description, style: TextStyle(color: Colors.grey[600])),
-                            Text('from ${widget.service.price}', style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1565C0))),
+                            Text(widget.service.title,
+                                style: Theme.of(context).textTheme.titleLarge),
+                            Text(widget.service.description,
+                                style: TextStyle(color: Colors.grey[600])),
+                            Text('from ${widget.service.price}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1565C0))),
                           ],
                         ),
                       ),
@@ -188,30 +202,46 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               const SizedBox(height: 24),
 
               // Clothes type
-              const Text('Clothes Type *', style: TextStyle(fontWeight: FontWeight.w600)),
+              const Text('Clothes Type *',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _clothesType,
+                initialValue: _clothesType,
                 decoration: _inputDecoration(),
-                items: _clothesTypes.map((e) => DropdownMenuItem(value: e['value'], child: Text(e['label']!))).toList(),
+                items: _clothesTypes
+                    .map((e) => DropdownMenuItem(
+                        value: e['value'], child: Text(e['label']!)))
+                    .toList(),
                 onChanged: (v) => setState(() => _clothesType = v),
               ),
               const SizedBox(height: 20),
 
               // Quantity
-              const Text('Quantity *', style: TextStyle(fontWeight: FontWeight.w600)),
+              const Text('Quantity *',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
               Row(
                 children: [
-                  IconButton.filled(onPressed: _quantity > 1 ? () => setState(() => _quantity--) : null, icon: const Icon(Icons.remove)),
-                  Padding(padding: const EdgeInsets.symmetric(horizontal: 16), child: Text('$_quantity', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-                  IconButton.filled(onPressed: () => setState(() => _quantity++), icon: const Icon(Icons.add)),
+                  IconButton.filled(
+                      onPressed: _quantity > 1
+                          ? () => setState(() => _quantity--)
+                          : null,
+                      icon: const Icon(Icons.remove)),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text('$_quantity',
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  IconButton.filled(
+                      onPressed: () => setState(() => _quantity++),
+                      icon: const Icon(Icons.add)),
                 ],
               ),
               const SizedBox(height: 20),
 
               // Size
-              const Text('Size *', style: TextStyle(fontWeight: FontWeight.w600)),
+              const Text('Size *',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -227,7 +257,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               const SizedBox(height: 24),
 
               // Drop box QR
-              const Text('Drop Box ID *', style: TextStyle(fontWeight: FontWeight.w600)),
+              const Text('Drop Box ID *',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
               InkWell(
                 onTap: _scanQRCode,
@@ -239,12 +270,17 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.qr_code_scanner, size: 40, color: Theme.of(context).colorScheme.primary),
+                      Icon(Icons.qr_code_scanner,
+                          size: 40,
+                          color: Theme.of(context).colorScheme.primary),
                       const SizedBox(width: 16),
                       Expanded(
                         child: Text(
                           _dropBoxId ?? 'Tap to scan QR code on drop box',
-                          style: TextStyle(color: _dropBoxId != null ? Colors.black87 : Colors.grey[600]),
+                          style: TextStyle(
+                              color: _dropBoxId != null
+                                  ? Colors.black87
+                                  : Colors.grey[600]),
                         ),
                       ),
                       const Icon(Icons.arrow_forward_ios, size: 16),
@@ -280,9 +316,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               // Submit
               FilledButton(
                 onPressed: _isSubmitting ? null : _submitOrder,
-                style: FilledButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16)),
+                style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16)),
                 child: _isSubmitting
-                    ? const SizedBox(height: 24, width: 24, child: CircularProgressIndicator(strokeWidth: 2))
+                    ? const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2))
                     : const Text('Submit Order'),
               ),
             ],
@@ -323,7 +363,9 @@ class _ChargesSummary extends StatelessWidget {
     final subtotal = quantity * unitRate;
     final total = subtotal + serviceCharge;
 
-    final sizeNote = sizeMultiplier != 1 && size != null ? ' ($size: ${((sizeMultiplier - 1) * 100).round()}% extra)' : '';
+    final sizeNote = sizeMultiplier != 1 && size != null
+        ? ' ($size: ${((sizeMultiplier - 1) * 100).round()}% extra)'
+        : '';
 
     return Card(
       elevation: 2,
@@ -332,9 +374,16 @@ class _ChargesSummary extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Charges Summary', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+            Text('Charges Summary',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const Divider(),
-            _buildRow('Subtotal', '$quantity items × ${_format(unitRate)}$sizeNote', _format(subtotal)),
+            _buildRow(
+                'Subtotal',
+                '$quantity items × ${_format(unitRate)}$sizeNote',
+                _format(subtotal)),
             const SizedBox(height: 8),
             _buildRow('Service charge', 'Fixed fee', _format(serviceCharge)),
             const Divider(),
@@ -345,7 +394,8 @@ class _ChargesSummary extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(String label, String detail, String value, {bool isTotal = false}) {
+  Widget _buildRow(String label, String detail, String value,
+      {bool isTotal = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -355,12 +405,21 @@ class _ChargesSummary extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: TextStyle(fontWeight: isTotal ? FontWeight.bold : FontWeight.w500, fontSize: isTotal ? 16 : 14)),
-                if (detail.isNotEmpty) Text(detail, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                Text(label,
+                    style: TextStyle(
+                        fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
+                        fontSize: isTotal ? 16 : 14)),
+                if (detail.isNotEmpty)
+                  Text(detail,
+                      style: TextStyle(fontSize: 12, color: Colors.grey[600])),
               ],
             ),
           ),
-          Text(value, style: TextStyle(fontWeight: isTotal ? FontWeight.bold : FontWeight.w500, fontSize: isTotal ? 18 : 14, color: isTotal ? const Color(0xFF1565C0) : null)),
+          Text(value,
+              style: TextStyle(
+                  fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
+                  fontSize: isTotal ? 18 : 14,
+                  color: isTotal ? const Color(0xFF1565C0) : null)),
         ],
       ),
     );
@@ -383,9 +442,16 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     super.dispose();
   }
 
+  bool _isProcessing = false;
+
   void _onDetect(BarcodeCapture capture) {
-    final code = capture.barcodes.isNotEmpty ? capture.barcodes.first.rawValue : null;
+    if (_isProcessing) return;
+
+    final code =
+        capture.barcodes.isNotEmpty ? capture.barcodes.first.rawValue : null;
+
     if (code != null && code.isNotEmpty) {
+      _isProcessing = true;
       Navigator.of(context).pop(code);
     }
   }
@@ -407,14 +473,16 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             bottom: 40,
             left: 0,
             right: 0,
             child: Text(
               'Position QR code within the frame',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, shadows: [Shadow(color: Colors.black, blurRadius: 4)]),
+              style: TextStyle(
+                  color: Colors.white,
+                  shadows: [Shadow(color: Colors.black, blurRadius: 4)]),
             ),
           ),
         ],

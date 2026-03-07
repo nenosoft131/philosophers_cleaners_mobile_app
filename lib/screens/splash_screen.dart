@@ -20,12 +20,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigateToNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
-    
+
     if (!mounted) return;
 
     // Check if user has a stored token
     final hasToken = await StorageService.hasToken();
-    
+
     if (hasToken) {
       final role = await StorageService.getUserRole();
       if (!mounted) return;
@@ -59,8 +59,8 @@ class _SplashScreenState extends State<SplashScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.blue.shade700,
-              Colors.blue.shade400,
+              const Color.fromARGB(255, 230, 230, 230),
+              const Color.fromARGB(255, 230, 230, 230),
             ],
           ),
         ),
@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.green,
                     letterSpacing: 1.5,
                   ),
                 ),
@@ -96,12 +96,13 @@ class _SplashScreenState extends State<SplashScreen> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white70,
+                    color: Colors.green,
                   ),
                 ),
                 const SizedBox(height: 32),
                 const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Color.fromARGB(255, 11, 111, 9)),
                 ),
               ],
             ),

@@ -8,8 +8,9 @@ import 'storage_service.dart';
 
 class ApiService {
   // Update this with your FastAPI base URL
-  static const String baseUrl = 'http://localhost:8000'; // Change to your API URL
-  
+  static const String baseUrl =
+      'http://192.168.0.232:8000'; // Change to your API URL
+
   static Future<LoginResponse> login(LoginRequest request) async {
     try {
       final response = await http.post(
@@ -27,7 +28,8 @@ class ApiService {
         // Store user email for orders
         await StorageService.saveUserEmail(request.email);
         // Store user role if backend returns it
-        if (loginResponse.userRole != null && loginResponse.userRole!.isNotEmpty) {
+        if (loginResponse.userRole != null &&
+            loginResponse.userRole!.isNotEmpty) {
           await StorageService.saveUserRole(loginResponse.userRole!);
         }
         return loginResponse;
@@ -45,7 +47,7 @@ class ApiService {
       final headers = {
         'Content-Type': 'application/json',
       };
-      
+
       // Add token to headers if available
       if (token != null) {
         headers['Authorization'] = 'Bearer $token';
@@ -144,7 +146,8 @@ class ApiService {
       );
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        throw Exception('Order failed: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Order failed: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       throw Exception('Submit order error: $e');

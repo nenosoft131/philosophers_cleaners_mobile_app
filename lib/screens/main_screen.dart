@@ -44,7 +44,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Philosophers Cleaners'),
+        title: const Text(
+          'Philosophers Cleaners',
+          style: TextStyle(color: Colors.white),
+        ),
+        
+        backgroundColor: Colors.green,
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: const Icon(Icons.account_circle_outlined),
@@ -117,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
-  
+
   void _showAccountDialog(BuildContext context) {
     showDialog<void>(
       context: context,
@@ -261,7 +267,8 @@ class _ServiceCard extends StatelessWidget {
                       color: Color(0xFF1565C0),
                     ),
                   ),
-                  Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey[400]),
+                  Icon(Icons.arrow_forward_ios,
+                      size: 14, color: Colors.grey[400]),
                 ],
               ),
             ],

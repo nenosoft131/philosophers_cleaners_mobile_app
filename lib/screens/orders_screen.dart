@@ -13,7 +13,12 @@ class OrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Orders'),
+        title: const Text(
+          'My Orders',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.green,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder<List<LaundryOrder>>(
         future: _loadOrders(),
@@ -95,4 +100,3 @@ class _OrderTile extends StatelessWidget {
     );
   }
 }
-
