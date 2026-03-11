@@ -25,7 +25,7 @@ class RegistrationRequest {
       'last_name': lastName,
       'email': email,
       'user_role': userRole.value,
-      'hash_password': password,
+      'hashed_password': password,
     };
 
     if (number != null && number!.isNotEmpty) {
